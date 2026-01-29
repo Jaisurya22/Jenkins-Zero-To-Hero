@@ -8,14 +8,15 @@ pipeline {
 
   environment {
     SONAR_URL = "http://13.233.108.140:9000"
-    DOCKER_IMAGE = "abhishekf5/ultimate-cicd:${BUILD_NUMBER}"
+    DOCKER_IMAGE = "jaisurya22/jaidockerepo-project:${BUILD_NUMBER}"
   }
 
   stages {
 
     stage('Checkout') {
       steps {
-        sh 'echo "Checkout stage passed"'
+        echo "Checkout stage passed"
+        // git branch: 'main', url: 'https://github.com/Jaisurya22/Jenkins-Zero-To-Hero.git'
       }
     }
 
@@ -28,7 +29,7 @@ pipeline {
       }
     }
 
-    stage('Static Code Analysis') {
+    stage('Static Code Analysis - SonarQube') {
       steps {
         withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
           sh '''
@@ -41,16 +42,6 @@ pipeline {
       }
     }
 
-    stage('Install Docker CLI') {
-      steps {
-        sh '''
-          apt-get update
-          apt-get install -y docker.io
-          docker --version
-        '''
-      }
-    }
-
     stage('Build and Push Docker Image') {
       steps {
         withCredentials([usernamePassword(
@@ -60,7 +51,7 @@ pipeline {
         )]) {
           sh '''
             cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
-            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
             docker build -t ${DOCKER_IMAGE} .
             docker push ${DOCKER_IMAGE}
           '''
@@ -79,7 +70,7 @@ pipeline {
               java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
 
             git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
-            git commit -m "Update deployment image to ${BUILD_NUMBER}"
+            git commit -m "Update image tag to ${BUILD_NUMBER}"
             git push https://${GITHUB_TOKEN}@github.com/Jaisurya22/Jenkins-Zero-To-Hero.git HEAD:main
           '''
         }
