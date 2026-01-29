@@ -30,19 +30,20 @@ pipeline {
     }
 
     stage('SonarQube Analysis') {
-      steps {
-        withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh '''
-            cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
-            mvn sonar:sonar \
-              -Dsonar.projectKey=spring-boot-app \
-              -Dsonar.host.url=${SONAR_URL} \
-              -Dsonar.login=${SONAR_AUTH_TOKEN} \
-              -DskipTests
-          '''
-        }
-      }
+  steps {
+    withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
+      sh '''
+        cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && \
+        mvn sonar:sonar \
+          -Dsonar.projectKey=spring-boot-app \
+          -Dsonar.host.url=${SONAR_URL} \
+          -Dsonar.login=${SONAR_AUTH_TOKEN} \
+          -DskipTests
+      '''
     }
+  }
+}
+
 
     stage('Build & Push Docker Image') {
       steps {
@@ -82,3 +83,4 @@ pipeline {
     }
   }
 }
+
