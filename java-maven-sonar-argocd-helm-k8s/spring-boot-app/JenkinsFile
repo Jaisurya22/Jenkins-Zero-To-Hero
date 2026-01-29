@@ -41,7 +41,7 @@ pipeline {
       }
     }
 
-    🔥 stage('Install Docker CLI') {
+    stage('Install Docker CLI') {
       steps {
         sh '''
           apt-get update
@@ -60,9 +60,7 @@ pipeline {
         )]) {
           sh '''
             cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
-
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-
             docker build -t ${DOCKER_IMAGE} .
             docker push ${DOCKER_IMAGE}
           '''
