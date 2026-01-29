@@ -10,7 +10,7 @@ This is a MVC architecture based application where controller returns a page wit
 Checkout the repo and move to the directory
 
 ```
-git clone https://github.com/iam-veeramalla/Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/sprint-boot-app
+git clone https://github.com/Jaisurya22/Jenkins-Zero-To-Hero/java-maven-sonar-argocd-helm-k8s/sprint-boot-app
 cd java-maven-sonar-argocd-helm-k8s/sprint-boot-app
 ```
 
@@ -32,23 +32,6 @@ The above maven target stroes the artifacts to the `target` directory. You can e
 java -jar target/spring-boot-web.jar
 ```
 
-### The Docker way
-
-Build the Docker Image
-
-```
-docker build -t ultimate-cicd-pipeline:v1 .
-```
-
-```
-docker run -d -p 8010:8080 -t ultimate-cicd-pipeline:v1
-```
-
-Hurray !! Access the application on `http://<ip-address>:8010`
-
-
-## Next Steps
-
 ### Configure a Sonar Server locally
 
 ```
@@ -67,6 +50,7 @@ cd /opt/sonarqube/bin/linux-x86-64
 ./sonar.sh start
 ```
 
-Hurray !! Now you can access the `SonarQube Server` on `http://<ip-address>:9000` 
+ Now you can access the `SonarQube Server` on `http://<ip-address>:9000` 
+
 
 
