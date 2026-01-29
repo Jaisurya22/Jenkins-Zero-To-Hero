@@ -1,7 +1,7 @@
 pipeline {
   agent {
     docker {
-      image 'abhishekf5/maven-abhishek-docker-agent:v1'
+      image 'jaisurya22/jaidockerepo-project:latest'
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
     }
   }
@@ -29,11 +29,14 @@ pipeline {
       }
     }
 
-    stage('SonarQube Analysis') {
+   stage('SonarQube Analysis') {
+  environment {
+    SONAR_URL = "http://13.233.108.140:9000"
+  }
   steps {
     withCredentials([string(credentialsId: 'sonarqube', variable: 'SONAR_AUTH_TOKEN')]) {
       sh '''
-        cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && \
+        cd java-maven-sonar-argocd-helm-k8s/spring-boot-app
         mvn sonar:sonar \
           -Dsonar.projectKey=spring-boot-app \
           -Dsonar.host.url=${SONAR_URL} \
@@ -43,6 +46,7 @@ pipeline {
     }
   }
 }
+
 
 
     stage('Build & Push Docker Image') {
@@ -83,4 +87,5 @@ pipeline {
     }
   }
 }
+
 
