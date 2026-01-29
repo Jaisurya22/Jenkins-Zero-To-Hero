@@ -75,8 +75,10 @@ pipeline {
         pwd
         ls -la
 
-        # FIX: workspace path contains SPACE
         cd "${WORKSPACE}"
+
+        # FIX: Git dubious ownership (MANDATORY in Docker agents)
+        git config --global --add safe.directory "${WORKSPACE}"
 
         git status
 
@@ -96,8 +98,10 @@ pipeline {
 }
 
 
+
   }
 }
+
 
 
 
