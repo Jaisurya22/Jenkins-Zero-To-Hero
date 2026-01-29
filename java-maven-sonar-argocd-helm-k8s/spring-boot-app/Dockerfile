@@ -1,13 +1,13 @@
-# Use Java 17 JRE runtime
-FROM eclipse-temurin:17-jre-alpine
+# You can change this base image to anything else
+# But make sure to use the correct version of Java
+FROM adoptopenjdk/openjdk11:alpine-jre
 
-# Artifact to copy
+# Simply the artifact path
 ARG artifact=target/spring-boot-web.jar
 
 WORKDIR /opt/app
 
-# Copy built JAR from Jenkins workspace
 COPY ${artifact} app.jar
 
-# Run the Spring Boot app
+# This should not be changed
 ENTRYPOINT ["java","-jar","app.jar"]
